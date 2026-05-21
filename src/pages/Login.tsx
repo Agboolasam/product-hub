@@ -16,6 +16,7 @@ export default function Login() {
   const [email, setEmail] = useState('demo@example.com')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
   const login = useAuthStore((s) => s.login)
   const navigate = useNavigate()
@@ -44,8 +45,14 @@ export default function Login() {
     event.preventDefault()
 
     try {
+      setIsLoading(true)
       await loginSchema.validate({ email, password }, { abortEarly: false })
       setErrors({})
+
+      //dummy loading effect
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1200)
+      })
 
       const ok = login(email, password)
       if (ok) {
@@ -69,6 +76,8 @@ export default function Login() {
       }
 
       toast.error('Unable to sign in')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -130,10 +139,10 @@ export default function Login() {
 
             <Button
               type="submit"
-              disabled={!isFormValid}
+              disabled={!isFormValid || isLoading}
               className="h-11 w-full rounded-xl bg-slate-900 px-4 font-semibold text-white transition hover:bg-slate-800 focus-visible:ring-slate-400/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             >
-              Sign in
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </div>
         </form>
