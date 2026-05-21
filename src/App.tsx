@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import Header from '@/components/Header'
 import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
 import ProtectedRoute from '@/components/ProtectedRoute'
@@ -6,18 +7,9 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 function AppShell() {
   const location = useLocation()
   const showHeader = location.pathname !== '/login' && location.pathname !== '/'
-
   return (
     <>
-      {showHeader ? (
-        <header style={{ padding: 12, borderBottom: '1px solid #eee' }}>
-          <nav style={{ display: 'flex', gap: 12 }}>
-            <Link to="/">Home</Link>
-            <Link to="/products">Dashboard</Link>
-            <Link to="/login">Login</Link>
-          </nav>
-        </header>
-      ) : null}
+      {showHeader ? <Header /> : null}
 
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
@@ -28,6 +20,8 @@ function AppShell() {
     </>
   )
 }
+
+
 
 export default function App() {
   return (

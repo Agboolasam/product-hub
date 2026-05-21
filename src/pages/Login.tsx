@@ -13,10 +13,10 @@ const loginSchema = yup.object({
 })
 
 export default function Login() {
-  const [email, setEmail] = useState('demo@example.com')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState<string>('demo@example.com')
+  const [password, setPassword] = useState<string>('')
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
   const login = useAuthStore((s) => s.login)
   const navigate = useNavigate()
@@ -57,7 +57,7 @@ export default function Login() {
       const ok = login(email, password)
       if (ok) {
         toast.success('Signed in')
-        navigate('/dashboard')
+        navigate('/products')
       } else {
         toast.error('Invalid credentials')
       }
@@ -87,6 +87,9 @@ export default function Login() {
         <h1 className="text-center text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
           Product Hub
         </h1>
+        <p className="text-sm text-slate-500">
+          Demo password: <span className="font-semibold text-slate-700">AgboolaDev2026@</span>
+        </p>
         <form onSubmit={handleLogin} className="w-full rounded-3xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/60">
           <div className="space-y-5">
             <div className="space-y-2">
