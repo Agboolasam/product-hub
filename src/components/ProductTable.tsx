@@ -27,6 +27,12 @@ export default function ProductTable({ products, isLoading  }: ProductTableProps
           <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
             {isLoading ? (
               Array.from({ length: 10 }).map((_, index) => <TableSkeletonRow key={index} />)
+            ) : products.length === 0 ? (
+              <tr>
+                <td colSpan={9} className="px-4 py-10 text-center text-sm text-slate-500">
+                  No products found. Adjust filters and search key word.
+                </td>
+              </tr>
             ) : null}
             {products.map((product) => (
               <tr key={product.id} className="align-top">
