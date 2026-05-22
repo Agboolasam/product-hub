@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import type { ProductQueryParams } from '@/types/product';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react'
+import type { ProductCreatePayload, ProductQueryParams } from '@/types/product'
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast';
-import { fetchCategories, fetchProducts, fetchSingleProduct } from '@/utils/api'
+import { addProduct, fetchCategories, fetchProducts, fetchSingleProduct } from '@/utils/api'
 
 // bulk product hook 
 export const useInfiniteProducts = (params: ProductQueryParams = {}) => {
@@ -59,5 +59,20 @@ export const useCategories = () => {
     queryFn: fetchCategories,
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 6,
+  })
+}
+
+export const useAddProduct = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: ProductCreatePayload) => addProduct(payload),
+    onSuccess: async () => {
+      toast.success('Product added successfully')
+      await queryClient.invalidateQueries({ queryKey: ['products'] })
+    },
+    onError: () => {
+      toast.error('Failed to add product')
+    },
   })
 }

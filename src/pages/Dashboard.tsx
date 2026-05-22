@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import useAuthStore from '@/store/useAuthStore'
 import { LIMIT } from '@/lib/constants'
 import { useCategories, useInfiniteProducts } from '@/hooks/api'
@@ -7,6 +8,7 @@ import ProductCard from '../components/ProductCard'
 import ProductCardSkeleton from '../components/ProductCardSkeleton'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
+import { Plus, RotateCw } from 'lucide-react'
 
 export default function Dashboard() {
   const { user } = useAuthStore()
@@ -77,6 +79,10 @@ export default function Dashboard() {
     })
   }
 
+  const handleReload = () => {
+    productsQuery.refetch()
+  }
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
@@ -117,6 +123,15 @@ export default function Dashboard() {
       </section>
 
       <div className="space-y-4 lg:hidden">
+        <div className="flex justify-end gap-2">
+          <Button asChild size="sm">
+            <Link to="/products/add">
+              <Plus className="h-4 w-4" aria-hidden="true" />
+              Add product
+            </Link>
+          </Button>
+        </div>
+
         {isLoading
           ? Array.from({ length: 4 }).map((_, index) => <ProductCardSkeleton key={index} />)
           : filteredProducts.map((product) => <ProductCard key={product.id} product={product} />)}
@@ -127,6 +142,20 @@ export default function Dashboard() {
       </div>
 
       <div className="hidden lg:block">
+        <div className="mb-4 flex items-center justify-end gap-2">
+          <Button variant="outline" size="sm" onClick={handleReload} disabled={productsQuery.isFetching}>
+            <RotateCw className="h-4 w-4" aria-hidden="true" />
+            <span className="sr-only">Reload</span>
+          </Button>
+
+          <Button asChild size="sm">
+            <Link to="/products/add">
+              <Plus className="h-4 w-4" aria-hidden="true" />
+              Add product
+            </Link>
+          </Button>
+        </div>
+
         <ProductTable products={tablePageProducts} isLoading={isLoading} />
 
         <div className="mt-4 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">

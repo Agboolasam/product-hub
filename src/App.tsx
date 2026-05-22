@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import Header from '@/components/Header'
 import Login from '@/pages/Login'
 import Dashboard from '@/pages/Dashboard'
+import AddProduct from '@/pages/AddProduct'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import ProductDetails from '@/pages/ProductDetails'
 
@@ -16,6 +17,7 @@ function AppShell() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/products/add" element={<ProtectedRoute><AddProduct /></ProtectedRoute>} />
         <Route path="/product/:id" element={<ProtectedRoute><ProductDetails /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

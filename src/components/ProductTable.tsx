@@ -31,6 +31,7 @@ export default function ProductTable({ products, isLoading  }: ProductTableProps
               <tr>
                 <td colSpan={9} className="px-4 py-10 text-center text-sm text-slate-500">
                   No products found. Adjust filters and search key word.
+                  
                 </td>
               </tr>
             ) : null}

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { ProductsResponse, ProductQueryParams, Product } from '@/types/product'
+import type { ProductsResponse, ProductQueryParams, Product, ProductCreatePayload } from '@/types/product'
 import { LIMIT } from '@/lib/constants'
 
 export const API_BASE = import.meta.env.VITE_API_BASE ?? 'https://dummyjson.com'
@@ -34,6 +34,11 @@ export const fetchSingleProduct = async (id: number): Promise<Product> => {
   return res.data
 }
 
+export const addProduct = async (payload: ProductCreatePayload): Promise<Product> => {
+  const res = await axios.post<Product>(`${BASE_URL}/add`, payload)
+  return res.data
+}
+
 export const fetchCategories = async (): Promise<string[]> => {
   const url = `${API_BASE}/products/category-list` // dummyjson endpoint for categories
   const res = await axios.get<string[]>(url)
@@ -43,4 +48,5 @@ export const fetchCategories = async (): Promise<string[]> => {
 export default {
   fetchProducts,
   fetchSingleProduct,
+  addProduct,
 }
