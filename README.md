@@ -1,61 +1,49 @@
 # Product Hub
 
-Minimal Vite + React + TypeScript starter used for the Product Hub UI.
+Product Hub is a React + TypeScript dashboard for browsing, filtering, and creating products with DummyJSON.
 
-**Tech stack**
-- React 19
-- Vite
-- TypeScript 6 (project configured for TS6 compatibility)
-- Tailwind CSS (v4) with `@tailwind` layers
-- shadcn UI (expects `@` alias for `src`)
-- react-query and lucide-react
-
-**Quick start**
-
-Install dependencies and run the dev server:
+## Setup
 
 ```bash
 npm install
+```
+
+Create a local `.env` if needed:
+
+```bash
+VITE_API_BASE=https://dummyjson.com
+```
+
+## Run
+
+```bash
 npm run dev
 ```
 
-**Scripts**
-
-Run these from the project root.
+## Scripts
 
 ```bash
-# start Vite dev server (development)
-npm run dev
-
-# compile TypeScript and build for production
-npm run build
-
-# preview the production build locally
-npm run preview
-
-# scaffold a shadcn component via the helper script
-npm run add:component -- <component>
+npm run dev      # start the Vite dev server
+npm run build    # type-check and build for production
+npm run preview  # preview the production build
+npm run lint     # run ESLint
+npm run add:component -- <component>  # scaffold a shadcn component
 ```
 
-Examples
+## Design Decisions
 
-- Add a `button` component using the script (shadcn will prompt for options):
+- **React Query for data**: handles caching, loading, retries, and refetch-on-focus across the app.
+- **API helpers + hooks**: keeps network logic out of pages and makes queries/mutations reusable.
+- **Shared types**: product and form types live in one place to reduce drift between UI and API payloads.
+- **Tailwind + shadcn-style UI**: fast layout work with consistent primitives for buttons, inputs, and skeletons.
+- **Desktop/table split**: desktop uses table pagination; mobile uses cards and infinite scroll for better touch UX.
 
-```bash
-npm run add:component -- button
-```
+## Trade-offs
 
-- Specify an explicit path for generated components:
+- **Client-side search under category**: when a category is selected, search filters the loaded results locally instead of making another API call.
+- **Server sort vs local sort**: created-at ordering is sent to the API to keep pagination consistent.
+- **Simple create form**: the add-product page validates with Yup and submits URLs for images instead of building a full upload flow.
+- **DummyJSON constraints**: some fields are required by the app even if the API is flexible, so defaults are used where needed.
 
-```bash
-npm run add:component -- button --path src/components
-```
+## Notes
 
-Notes
-
-- The `add:component` script calls `npx shadcn@latest add` and will prompt for any required choices; follow the CLI instructions and install any peer deps it recommends.
-- You can also run the shadcn command directly if you prefer:
-
-```bash
-npx shadcn@latest add button --path src/components
-```

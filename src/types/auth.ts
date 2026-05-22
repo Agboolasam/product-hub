@@ -8,6 +8,7 @@ export type User = {
 
 export type AuthState = {
   user: User
+  token: string | null
   isLoggedIn: boolean
   login: (email: string, password: string) => boolean
   logout: () => void

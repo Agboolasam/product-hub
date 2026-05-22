@@ -9,7 +9,15 @@ type ProtectedRouteProps = {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn)
 
-  if (!isLoggedIn) return <Navigate to="/login" replace />
+  // also check for a persisted token in localStorage to survive page reloads
+  let token: string | null = null
+  try {
+    token = typeof window !== 'undefined' ? localStorage.getItem('auth.token') : null
+  } catch (err) {
+    token = null
+  }
+
+  if (!isLoggedIn && !token) return <Navigate to="/login" replace />
 
   return children
 }
