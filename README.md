@@ -4,9 +4,19 @@ Product Hub is a React + TypeScript dashboard for browsing, filtering, and creat
 
 ## Setup
 
+Install dependencies with [npm](https://www.npmjs.com/):
+
 ```bash
 npm install
 ```
+
+## Platform Requirements
+
+- Node.js 18 or newer
+- npm 9 or newer
+- A modern browser for local development and testing
+- Internet access for DummyJSON API requests
+
 
 Create a local `.env` if needed:
 
@@ -33,10 +43,12 @@ npm run add:component -- <component>  # scaffold a shadcn component
 ## Design Decisions
 
 - **React Query for data**: handles caching, loading, retries, and refetch-on-focus across the app.
-- **API helpers + hooks**: keeps network logic out of pages and makes queries/mutations reusable.
+- **API helpers + hooks**: keeps network logic out of pages and makes queries reusable.
 - **Shared types**: product and form types live in one place to reduce drift between UI and API payloads.
 - **Tailwind + shadcn-style UI**: fast layout work with consistent primitives for buttons, inputs, and skeletons.
 - **Desktop/table split**: desktop uses table pagination; mobile uses cards and infinite scroll for better touch UX.
+- **Local auth token**: login persists a token so the route guard can survive refreshes.
+
 
 ## Trade-offs
 
@@ -45,5 +57,15 @@ npm run add:component -- <component>  # scaffold a shadcn component
 - **Simple create form**: the add-product page validates with Yup and submits URLs for images instead of building a full upload flow.
 - **DummyJSON constraints**: some fields are required by the app even if the API is flexible, so defaults are used where needed.
 
-## Notes
+## Next Steps
+
+If there is time, the next useful additions would be:
+
+- **Tests**: add component and hook tests for login, protected routing, product listing, and product creation.
+- **Dark and light mode**: add a theme toggle and persist the selected theme.
+- **Update product flow**: add edit/update screens and wire them to the API.
+- **App logo**: add a logo for the app.
+- **SEO with React Helmet**: add per-page titles, meta descriptions, and social tags.
+- **Token handling**: attach the stored token to protected API requests when a real backend is introduced.
+
 
