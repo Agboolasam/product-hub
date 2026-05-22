@@ -18,8 +18,9 @@ export default function Dashboard() {
   const { data: categories = [] } = useCategories()
 
   const order = createdAtSort === 'newest' ? 'desc' : 'asc'
+  const normalizedSearch = search.trim().toLowerCase()
   const productsQuery = useInfiniteProducts({
-    search: search.trim() || undefined,
+    search: selectedCategory ? undefined : search.trim() || undefined,
     sortBy: 'createdAt',
     order,
     category: selectedCategory || undefined,
@@ -28,7 +29,9 @@ export default function Dashboard() {
   const hasNextPage = productsQuery.hasNextPage ?? false
   const isFetchingNextPage = productsQuery.isFetchingNextPage
 
-  const filteredProducts = [...products]
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.title.toLowerCase().includes(normalizedSearch))
+    : [...products]
 
   const tablePageProducts = filteredProducts.slice(pageIndex * LIMIT, (pageIndex + 1) * LIMIT)
 
