@@ -1,33 +1,35 @@
+import { useEffect, useState } from 'react'
 import useAuthStore from '@/store/useAuthStore'
-import { useNavigate } from 'react-router-dom'
+import ProductTable from '../components/ProductTable'
+import { demoProducts } from '../data/demoProducts'
+import ProductCard from '../components/ProductCard'
+import ProductCardSkeleton from '../components/ProductCardSkeleton'
 
 export default function Dashboard() {
-  const { user, logout } = useAuthStore()
-  const navigate = useNavigate()
+  const { user } = useAuthStore()
+  const [isLoading, setIsLoading] = useState(true)
 
-  const handleLogout = () => {
-    logout()
-    navigate('/')
-  }
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => setIsLoading(false), 1200)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [])
 
   return (
-    <div style={{ padding: 24 }}>
-      <h2>Dashboard</h2>
-      {user ? (
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <img src={user.profileImageUrl} alt="avatar" width={48} height={48} style={{ borderRadius: 8 }} />
-          <div>
-            <div><strong>{user.name}</strong></div>
-            <div>{user.email}</div>
-            <div>Role: {user.role}</div>
-          </div>
-        </div>
-      ) : (
-        <div>Not signed in.</div>
-      )}
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-slate-900">Welcome, {user?.name ?? 'Guest'}</h2>
+        <p className="mt-1 text-sm text-slate-500">Product overview and quick access to details.</p>
+      </div>
 
-      <div style={{ marginTop: 12 }}>
-        <button onClick={handleLogout}>Sign out</button>
+      <div className="space-y-4 lg:hidden">
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, index) => <ProductCardSkeleton key={index} />)
+          : demoProducts.map((product) => <ProductCard key={product.id} product={product} />)}
+      </div>
+
+      <div className="hidden lg:block">
+        <ProductTable products={demoProducts} isLoading={isLoading} />
       </div>
     </div>
   )
