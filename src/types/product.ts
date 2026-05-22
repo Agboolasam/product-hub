@@ -54,3 +54,14 @@ export interface ProductsResponse {
 export type ProductCardProps = {
   product: Product
 }
+
+export type ProductQueryParams = {
+  search?: string
+  sortBy?: 'createdAt' | keyof Product
+  order?: 'asc' | 'desc'
+  // filters
+  priceMin?: number
+  priceMax?: number
+  brand?: string
+  category?: string
+}
