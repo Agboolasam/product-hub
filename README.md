@@ -4,7 +4,7 @@ Product Hub is a React + TypeScript dashboard for browsing, filtering, and creat
 
 ## Setup
 
-Install dependencies with [npm](https://www.npmjs.com/):
+
 
 ```bash
 npm install
