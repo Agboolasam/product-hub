@@ -6,29 +6,33 @@ import TableSkeletonRow from './TableSkeletonRow'
 
 
 
-export default function ProductTable({ products, isLoading = false }: ProductTableProps) {
+export default function ProductTable({ products, isLoading  }: ProductTableProps) {
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
+        <table className="w-full divide-y divide-slate-200 text-left text-sm">
           <thead className="bg-slate-50 text-slate-600">
             <tr>
-              <th className="px-4 py-3 font-medium">Title</th>
-              <th className="px-4 py-3 font-medium">Description</th>
-              <th className="px-4 py-3 font-medium">Price</th>
-              <th className="px-4 py-3 font-medium">Rating</th>
-              <th className="px-4 py-3 font-medium">Stock</th>
-              <th className="px-4 py-3 font-medium">Created At</th>
-              <th className="px-4 py-3 font-medium">View</th>
+              <th className="px-4 py-3 font-medium w-2/6">Title</th>
+              <th className="px-4 py-3 font-medium w-1/12">Brand</th>
+              <th className="px-4 py-3 font-medium w-1/12">Category</th>
+              <th className="px-4 py-3 font-medium w-1/4">Description</th>
+              <th className="px-4 py-3 font-medium w-1/12">Price</th>
+              <th className="px-4 py-3 font-medium w-1/12">Rating</th>
+              <th className="px-4 py-3 font-medium w-1/12">Stock</th>
+              <th className="px-4 py-3 font-medium w-1/6">Created At</th>
+              <th className="px-4 py-3 font-medium w-24">View</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
             {isLoading ? (
-              Array.from({ length: 5 }).map((_, index) => <TableSkeletonRow key={index} />)
+              Array.from({ length: 10 }).map((_, index) => <TableSkeletonRow key={index} />)
             ) : null}
             {products.map((product) => (
               <tr key={product.id} className="align-top">
                 <td className="px-4 py-4 font-medium text-slate-900">{product.title}</td>
+                <td className="px-4 py-4">{product.brand ?? '-'}</td>
+                <td className="px-4 py-4">{product.category}</td>
                 <td className="px-4 py-4 max-w-md">
                   <p className="line-clamp-2">{product.description}</p>
                 </td>

@@ -13,6 +13,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div>
           <h3 className="text-lg font-semibold text-slate-900">{product.title}</h3>
           <p className="mt-1 line-clamp-2 text-sm text-slate-500">{product.description}</p>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs">
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{product.category}</span>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{product.brand ?? 'No brand'}</span>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{product.availabilityStatus}</span>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 text-sm">

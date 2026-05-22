@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { ProductQueryParams } from '@/types/product';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { fetchProducts, fetchSingleProduct } from '@/utils/api'
+import { fetchCategories, fetchProducts, fetchSingleProduct } from '@/utils/api'
 
 // bulk product hook 
 export const useInfiniteProducts = (params: ProductQueryParams = {}) => {
@@ -52,3 +52,12 @@ export const useProduct = (id: number) => {
 
   return query;
 };
+
+export const useCategories = () => {
+  return useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60 * 6,
+  })
+}

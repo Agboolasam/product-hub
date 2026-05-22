@@ -9,12 +9,17 @@ export const fetchProducts = async (
   { pageParam = 0 }: { pageParam: number },
   params: ProductQueryParams
 ): Promise<ProductsResponse> => {
-  const url = params.search ? `${BASE_URL}/search` : BASE_URL
+  const url = params.category
+    ? `${BASE_URL}/category/${encodeURIComponent(params.category)}`
+    : params.search
+      ? `${BASE_URL}/search`
+      : BASE_URL
 
   const res = await axios.get<ProductsResponse>(url, {
     params: {
       limit: LIMIT,
       skip: pageParam,
+      ...(params.category && { category: params.category }),
       ...(params.search && { q: params.search }),
       ...(params.sortBy && { sortBy: params.sortBy }),
       ...(params.order && { order: params.order }),
